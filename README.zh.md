@@ -384,6 +384,14 @@ python run.py
 
 本项目使用 `buildkit` 进行打包。buildkit 将 Web 应用转换为 qiankun 微应用并打包为 `.dip` 文件。
 
+**除 Node / Python / uv 外，打包脚本还会调用**（未安装会在中途报错）：
+
+- **Docker**，且需启用 **buildx**（用于构建多架构镜像）
+- **Helm**（打包 Chart）
+- **Skopeo**（把镜像导出为 OCI 归档）
+
+在仓库根目录已执行过 `npm install` 且 `npm run build` 能成功的前提下，再执行：
+
 ```bash
 cd buildkit
 uv venv
@@ -392,16 +400,21 @@ uv venv
 # Linux/Mac
 source .venv/bin/activate
 
-# 构建 AMD64 包
-uv run scripts/build_package.py --arch=amd64
+# 可选：显式安装依赖（uv run 一般会自动拉取）
+uv sync
 
-# 构建 ARM64 包
-uv run scripts/build_package.py --arch=arm64
+# 构建 AMD64 包
+uv run scripts/build_package.py --arch amd64
+
+# 构建 ARM64 包（在 Apple Silicon 上常用）
+uv run scripts/build_package.py --arch arm64
 ```
+
+若某一步失败，可对照排查：**没有 `uv` 命令** → 先[安装 uv](https://docs.astral.sh/uv/getting-started/installation/)；**Python 版本不满足** → 使用 3.10 及以上；**Docker / helm / skopeo 未找到** → 安装对应 CLI 并保证 Docker 已启动。
 
 ### 2. 获取包
 
-打包完成后，在 `buildkit/.cache/<timestamp>/package/` 目录中找到生成的 `.dip` 文件。
+打包成功后，脚本会把 `.dip` 复制到 **`buildkit/release/`**（终端会打印完整路径）。中间产物在 `buildkit/.cache/<timestamp>/`。
 
 `.dip` 包包含：
 - `application.key` - 应用标识符

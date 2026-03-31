@@ -377,6 +377,14 @@ In user mode, the application is packaged as a `.dip` file and installed via the
 
 This project uses `buildkit` for packaging. The buildkit transforms web applications into qiankun micro-apps and packages them as `.dip` files.
 
+**Besides Node / Python / uv, the packaging script also requires** (missing tools will fail mid-run):
+
+- **Docker** with **buildx** enabled (multi-arch image build)
+- **Helm** (chart packaging)
+- **Skopeo** (export image to OCI archive)
+
+From the repo root, ensure `npm install` has been run and `npm run build` succeeds, then:
+
 ```bash
 cd buildkit
 uv venv
@@ -385,16 +393,21 @@ uv venv
 # Linux/Mac
 source .venv/bin/activate
 
-# Build AMD64 Package
-uv run scripts/build_package.py --arch=amd64
+# Optional: install deps explicitly (uv run usually resolves them)
+uv sync
 
-# Build ARM64 Package
-uv run scripts/build_package.py --arch=arm64
+# Build AMD64 package
+uv run scripts/build_package.py --arch amd64
+
+# Build ARM64 package (common on Apple Silicon)
+uv run scripts/build_package.py --arch arm64
 ```
+
+If a step fails: **command `uv` not found** → [install uv](https://docs.astral.sh/uv/getting-started/installation/); **Python version** → use 3.10+; **docker / helm / skopeo not found** → install the CLIs and ensure Docker is running.
 
 ### 2. Retrieve Package
 
-After packaging, locate the generated `.dip` file in the `buildkit/.cache/<timestamp>/package/` directory.
+On success, the script copies the `.dip` file to **`buildkit/release/`** (the terminal prints the path). Intermediate output lives under `buildkit/.cache/<timestamp>/`.
 
 The `.dip` package contains:
 - `application.key` - Application identifier

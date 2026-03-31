@@ -4,13 +4,13 @@ import tailwindcss from '@tailwindcss/vite'
 import qiankun from 'vite-plugin-qiankun'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     tailwindcss(),
     qiankun('supply-chain-brain', {
-      useDevMode: false
-    })
+      useDevMode: mode === 'development',
+    }),
   ],
   base: '/supply-chain-brain/', // Base path for the micro-app
   server: {
@@ -70,8 +70,8 @@ export default defineConfig({
     },
   },
   build: {
-    target: 'esnext',
+    target: 'es2020',
     minify: false,
     cssCodeSplit: false,
   },
-})
+}))

@@ -6,7 +6,7 @@
  */
 
 import { useMemo, useEffect, useState } from 'react';
-import { Package, ShoppingCart, Warehouse, Box, Truck, Loader2, X, BarChart3 } from 'lucide-react';
+import { Package, ShoppingCart, Warehouse, Box, Truck, Loader2, X, BarChart3, type LucideIcon } from 'lucide-react';
 import OrderDemandCharts from './OrderDemandCharts';
 import ProductInventoryCharts from './ProductInventoryCharts';
 import MaterialInventoryCharts from './MaterialInventoryCharts';
@@ -207,7 +207,7 @@ const SupplyChainGraphPanel = ({ onNavigate }: Props) => {
     supplierCountFromApi,
   ]);
 
-  const stageIcons: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  const stageIcons: Record<string, LucideIcon> = {
     '订单需求': ShoppingCart,
     '产品': Package,
     '仓库': Warehouse,

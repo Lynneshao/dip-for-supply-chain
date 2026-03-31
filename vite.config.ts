@@ -1,14 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
 import qiankun from 'vite-plugin-qiankun'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
-    tailwindcss(),
-    qiankun('supply-chain-brain', {
+    qiankun('dip-for-supply-chain-demo', {
       useDevMode: mode === 'development',
     }),
   ],

@@ -292,11 +292,12 @@ const CustomStyleChart: React.FC<CustomStyleChartProps> = ({
                                         borderRadius: '6px',
                                         boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
                                     }}
-                                    formatter={(value: number, name: string) => {
+                                    formatter={(value, name) => {
+                                        const numericValue = typeof value === 'number' ? value : Number(value ?? 0);
                                         const label = name === 'replenishment'
                                             ? '实际补料金额'
                                             : (withMOQ ? '剩余呆滞料金额' : '新增呆滞金额');
-                                        return [`¥${formatCurrency(value)}`, label];
+                                        return [`¥${formatCurrency(numericValue)}`, label];
                                     }}
                                     labelFormatter={(label) => `生产数量: ${formatQuantity(label as number)} 套`}
                                 />

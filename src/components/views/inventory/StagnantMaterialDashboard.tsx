@@ -187,7 +187,10 @@ export const StagnantMaterialDashboard = ({ materials, loading }: StagnantMateri
                                 ))}
                             </Pie>
                             <Tooltip
-                                formatter={(value: number) => `¥${(value / 10000).toFixed(2)}万`}
+                                formatter={(value) => {
+                                    const numericValue = typeof value === 'number' ? value : Number(value ?? 0);
+                                    return `¥${(numericValue / 10000).toFixed(2)}万`;
+                                }}
                             />
                         </PieChart>
                     </ResponsiveContainer>

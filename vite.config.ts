@@ -3,14 +3,14 @@ import react from '@vitejs/plugin-react'
 import qiankun from 'vite-plugin-qiankun'
 
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig(() => ({
   plugins: [
     react(),
     qiankun('dip-for-supply-chain-demo', {
-      useDevMode: mode === 'development',
+      useDevMode: false,
     }),
   ],
-  base: '/supply-chain-brain/', // Base path for the micro-app
+  base: '/dip-for-supply-chain-demo/', // Base path for the micro-app
   server: {
     port: 5173,
     host: '127.0.0.1',

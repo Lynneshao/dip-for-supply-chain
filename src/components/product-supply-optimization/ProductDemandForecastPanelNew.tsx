@@ -563,14 +563,18 @@ export const ProductDemandForecastPanelNew: React.FC<Props> = ({ productId, prod
                   borderRadius: '8px',
                   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
                 }}
-                formatter={(value: number, name: string) => {
+                formatter={(value, name) => {
                   if (value === null || value === undefined) return ['-', ''];
                   const labels: Record<string, string> = {
                     actual: '历史实际',
                     backtest: '回测拟合',
                     forecast: '预测值'
                   };
-                  return [value.toLocaleString(), labels[name] || name];
+                  const labelKey = typeof name === 'string' ? name : '';
+                  const formattedValue = Array.isArray(value)
+                    ? value.join(', ')
+                    : value.toLocaleString();
+                  return [formattedValue, labels[labelKey] || labelKey];
                 }}
               />
               <Legend

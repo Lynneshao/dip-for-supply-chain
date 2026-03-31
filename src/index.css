@@ -1,7 +1,6 @@
-@import "tailwindcss";
-
-/* Streamdown 样式源 - 为AI流式Markdown渲染提供样式支持 */
-@source "../node_modules/streamdown/dist/*.js";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* 确保根元素高度链完整，支持 h-full 在独立模式和DIP微应用模式下生效 */
 html, body, #root {
@@ -10,15 +9,10 @@ html, body, #root {
 }
 
 /**
- * Tailwind v4 Semantic Color Variables
- * 
- * Principle: Styles MUST use Tailwind v4 semantic variables (e.g., bg-status-risk),
- * NOT hardcoded colors.
- * 
- * These CSS custom properties define semantic color tokens that MUST be used
- * throughout the application instead of hardcoded hex values.
+ * 完整还原 v4 中的所有 CSS 变量定义
+ * 这样即便在 React 环境中通过 inline-style 或 legacy CSS 引用也能生效
  */
-@theme {
+:root {
   /* Status colors */
   --color-status-risk: #EF4444;
   --color-status-normal: #10B981;
@@ -51,8 +45,8 @@ html, body, #root {
   --color-interactive-hover: #475569;
   --color-interactive-active: #334155;
   --color-interactive-focus: #3B82F6;
-  
-  /* Extended colors for V2 design */
+
+  /* Custom Palettes (Fully restored) */
   --color-emerald-50: #ecfdf5;
   --color-emerald-100: #d1fae5;
   --color-emerald-200: #a7f3d0;
@@ -104,25 +98,23 @@ html, body, #root {
   --color-slate-600: #475569;
   --color-slate-700: #334155;
   --color-slate-800: #1e293b;
-  
-  /* Risk level colors for supplier evaluation */
-  --color-risk-low: #10b981;        /* emerald-500 */
-  --color-risk-medium: #f59e0b;     /* amber-500 */
-  --color-risk-high: #f97316;       /* orange-500 */
-  --color-risk-critical: #ef4444;   /* red-500 */
-  
-  --color-risk-low-bg: #d1fae5;     /* emerald-100 */
-  --color-risk-medium-bg: #fef3c7;   /* amber-100 */
-  --color-risk-high-bg: #fed7aa;     /* orange-100 */
-  --color-risk-critical-bg: #fee2e2; /* red-100 */
-  
-  --color-risk-low-text: #047857;    /* emerald-700 */
-  --color-risk-medium-text: #b45309; /* amber-700 */
-  --color-risk-high-text: #c2410c;    /* orange-700 */
-  --color-risk-critical-text: #b91c1c; /* red-700 */
+
+  /* Risk assessment colors */
+  --color-risk-low: #10b981;
+  --color-risk-medium: #f59e0b;
+  --color-risk-high: #f97316;
+  --color-risk-critical: #ef4444;
+  --color-risk-low-bg: #d1fae5;
+  --color-risk-medium-bg: #fef3c7;
+  --color-risk-high-bg: #fed7aa;
+  --color-risk-critical-bg: #fee2e2;
+  --color-risk-low-text: #047857;
+  --color-risk-medium-text: #b45309;
+  --color-risk-high-text: #c2410c;
+  --color-risk-critical-text: #b91c1c;
 }
 
-/* 确保背景色铺满 - 使用语义化变量 */
 body {
   background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
 }
